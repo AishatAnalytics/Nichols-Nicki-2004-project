@@ -1,0 +1,44 @@
+---
+title: "Assignment7"
+author: "Aishat Olatunji"
+date: "2022-10-18"
+output: word_document
+---
+
+```{r}
+data<-read.delim("/Users/aishatolatunji/Downloads/Nichols & Nicki (2004).dat")
+head(data)
+nrow(data)# we have 207 entries 
+ncol(data)#we have 36 variable names
+data_cor_matrix <-cor(data)
+round(data_cor_matrix,2)# rounding up the matrix set to significantly undrstand it better.
+# correltions that are less than 0.3 might not be meaningful.
+library(pastecs)
+stat.desc(data_cor_matrix)
+stat.desc(data)
+library(gdata)
+Data2<-remove.vars(data,c("ias13","ias22","ias32","ias23","ias34"))
+head(Data2)
+nrow(Data2)
+ncol(Data2)
+library(psych)
+pc_1 <- principal(Data2,nfactors=31)
+pc_1$values
+# based on kraiser's rule to drop all value less than 1 and leave the values above 1 as been the been the most important variables in the prediction of the data.
+# The top 5 result which includes  14.4269790 , 1.6543908 , 1.5616125 , 1.2094024  and  1.0144137 are said to be the most influential factors or variables.
+
+
+#using another pca n factors since we've got just 5 factors has been the most significance
+pc_2 <- principal(Data2,nfactors = 5)
+pc_2$values
+plot(pc_2$values,type='b')
+
+# the top five variables are the important ones in describing the data
+
+print.psych(pc_2, cut=0.3, sort = TRUE)
+
+plot(pc_2$values,type='b')
+#The plot shows that the top 5 variables explains of the data set as after the top 5 description, there are no changes as to regards to other variables
+```
+
+
